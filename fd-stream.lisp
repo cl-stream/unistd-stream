@@ -31,13 +31,13 @@
 
 (defmethod stream-blocking-p ((stream fd-stream))
   (or (when (slot-boundp stream 'blocking-p)
-	(slot-value stream 'blocking))
+	(slot-value stream 'blocking-p))
       (setf (slot-value stream 'blocking-p)
 	    (let ((flags (fcntl:getfl (stream-fd stream))))
 	      (not (= 0 (logand fcntl:+o-nonblock+ flags)))))))
 
 (defmethod (setf stream-blocking-p) (value (stream fd-stream))
-  (let* ((fd (fd-stream-fd stream))
+  (let* ((fd (stream-fd stream))
 	 (flags (fcntl:getfl fd))
 	 (o-nonblock (not (= 0 (logand fcntl:+o-nonblock+ flags)))))
     (cond
