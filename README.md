@@ -4,7 +4,10 @@ fd-stream streams are `(unsigned-byte 8)` cl-stream streams
 using `unistd:read`, `unistd:write` and `unistd:close` to
 operate on Unix file descriptors.
 
+See https://github.com/cl-stream/cl-stream .
+
 ## Class: fd-stream
+Base class for file descriptor streams.
 
 ### Generic: stream-fd *fd-stream* => *fd*
 Returns the file descriptor of FD-STREAM.
