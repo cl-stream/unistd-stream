@@ -154,3 +154,33 @@ UNISTD:READ and UNISTD:WRITE."))
 (defun fd-io-stream (fd)
   "Creates a buffered input/output stream for file descriptor FD."
   (make-instance 'fd-io-stream :fd fd))
+
+(defun open-file (pathname &key
+                             (append nil)
+                             (blocking t)
+                             (create t)
+                             (direction :io)
+                             (input-buffer-size *default-buffer-size*)
+                             (mode #o777)
+                             (output-buffer-size *default-buffer-size*))
+  (let* ((flags (logior (if append
+                            fcntl:+o-append+
+                            0)
+                        (if blocking
+                            0
+                            fcntl:+o-nonblock+)
+                        (if create
+                            fcntl:+o-creat+
+                            0)
+                        (ecase direction
+                          ((:input) fcntl:+o-rdonly+)
+                          ((:output) fcntl:+o-wronly+)
+                          ((:io) fcntl:+o-rdwr+))))
+         (fd (fcntl:open pathname flags mode)))
+    (make-instance (case direction
+                     ((:input) 'fd-input-stream)
+                     ((:output) 'fd-output-stream)
+                     ((:io) 'fd-io-stream))
+                   :fd fd
+                   :input-buffer-size input-buffer-size
+                   :output-buffer-size output-buffer-size)))
