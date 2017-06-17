@@ -83,7 +83,13 @@
            (error 'stream-input-error :stream stream))
           (t
            (incf (stream-input-length stream) r)
-           r))))
+           nil))))
+
+(defmethod stream-read-element-from-buffer ((stream fd-input-stream))
+  (let ((element (cffi:mem-aref (stream-input-buffer stream) :unsigned-char
+				(stream-input-index stream))))
+    (incf (stream-input-index stream))
+    (values element nil)))
 
 (defmethod close ((stream fd-input-stream))
   (call-next-method)
