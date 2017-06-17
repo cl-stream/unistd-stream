@@ -24,12 +24,8 @@
    :cl-stream)
   #.(cl-stream:shadowing-import-from)
   (:export
-   #:fd-stream
    #:fd-input-stream
-   #:with-fd-input-stream
-   #:fd-output-stream
-   #:with-fd-output-stream
    #:fd-io-stream
-   #:with-fd-io-stream
-   #:fd-stream-error
-   #:fd-stream-closed-error))
+   #:fd-output-stream
+   #:fd-stream
+   #:open-file))
