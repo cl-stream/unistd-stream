@@ -18,9 +18,6 @@
 
 (in-package :fd-stream)
 
-(deftype octet ()
-  `(unsigned-byte 8))
-
 (deftype fixnum+ (&optional (start 0))
   `(integer ,start ,most-positive-fixnum))
 
@@ -29,7 +26,8 @@
        :reader stream-fd
        :type file-descriptor)
    (blocking-p :initarg :blocking-p
-	       :type boolean)))
+	       :type boolean))
+  (:documentation "Base class for file descriptor streams."))
 
 (defmethod stream-blocking-p ((stream fd-stream))
   (or (when (slot-boundp stream 'blocking-p)
@@ -54,14 +52,15 @@
        (setf (slot-value stream 'blocking-p) value)))))
 
 (defmethod stream-element-type ((stream fd-stream))
-  'octet)
+  '(unsigned-byte 8))
 
 (defmethod close ((stream fd-stream))
   (unistd:close (stream-fd stream))
   (call-next-method))
 
 (defclass fd-input-stream (fd-stream buffered-input-stream)
-  ())
+  ()
+  (:documentation "A buffered input stream using UNISTD:READ."))
 
 (defmethod make-stream-input-buffer ((stream fd-input-stream))
   (cffi:foreign-alloc :unsigned-char :count *default-buffer-size*))
@@ -90,10 +89,12 @@
   (cffi:foreign-free (stream-input-buffer stream)))
 
 (defun fd-input-stream (fd)
+  "Creates a buffered input stream for file descriptor FD."
   (make-instance 'fd-input-stream :fd fd))
 
 (defclass fd-output-stream (fd-stream buffered-output-stream)
-  ())
+  ()
+  (:documentation "A buffered output stream using UNISTD:WRITE."))
 
 (defmethod make-stream-output-buffer ((stream fd-output-stream))
   (cffi:foreign-alloc :unsigned-char :count *default-buffer-size*))
@@ -127,10 +128,13 @@
   (cffi:foreign-free (stream-output-buffer stream)))
 
 (defun fd-output-stream (fd)
+  "Creates a buffered output stream for file descriptor FD."
   (make-instance 'fd-output-stream :fd fd))
 
 (defclass fd-io-stream (fd-input-stream fd-output-stream)
-  ())
+  ()
+  (:documentation "A buffered input/output stream using
+UNISTD:READ and UNISTD:WRITE."))
 
 (defmethod close ((stream fd-io-stream))
   (call-next-method)
@@ -138,4 +142,5 @@
   (cffi:foreign-free (stream-output-buffer stream)))
 
 (defun fd-io-stream (fd)
+  "Creates a buffered input/output stream for file descriptor FD."
   (make-instance 'fd-io-stream :fd fd))

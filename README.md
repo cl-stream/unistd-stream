@@ -16,16 +16,16 @@ Returns the file descriptor of FD-STREAM.
 A buffered input stream using UNISTD:READ.
 
 ### Function: fd-input-stream *fd* => *stream*
-Creates an input stream for file descriptor *fd*.
+Creates a buffered input stream for file descriptor *fd*.
 
 ## Class: fd-output-stream
 A buffered output stream using UNISTD:WRITE.
 
 ### Function: fd-output-stream *fd* => *stream*
-Creates an output stream for file descriptor *fd*.
+Creates a buffered output stream for file descriptor *fd*.
 
 ## Class: fd-io-stream
 A buffered input/output stream using UNISTD:READ and UNISTD:WRITE.
 
 ### Function: fd-io-stream *fd* => *stream*
-Creates an input/output stream for file descriptor *fd*.
+Creates a buffered input/output stream for file descriptor *fd*.
