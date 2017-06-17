@@ -1,5 +1,5 @@
 ;;
-;;  fd-stream  -  Unix file descriptors layer for cl-stream
+;;  fd-stream  -  Unix file descriptor layer for cl-stream
 ;;
 ;;  Copyright 2017 Thomas de Grivel <thoxdg@gmail.com>
 ;;
