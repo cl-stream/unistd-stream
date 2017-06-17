@@ -1,5 +1,5 @@
 ;;
-;;  fd-gray  -  Unix file descriptor gray streams for Common Lisp
+;;  fd-stream  -  Unix file descriptors layer for cl-stream
 ;;
 ;;  Copyright 2017 Thomas de Grivel <thoxdg@gmail.com>
 ;;
@@ -18,18 +18,19 @@
 
 (in-package :common-lisp-user)
 
-(defpackage :fd-gray.system
+(defpackage :fd-stream.system
   (:use :common-lisp :asdf))
 
-(in-package :fd-gray.system)
+(in-package :fd-stream.system)
 
-(defsystem :fd-gray
-  :name "fd-gray"
+(defsystem :fd-stream
+  :name "fd-stream"
   :author "Thomas de Grivel <thoxdg@gmail.com>"
   :version "0.1"
-  :description "Unix file descriptor gray streams for Common Lisp"
-  :depends-on ("cffi-unistd"
-	       "trivial-gray-streams")
+  :description "Unix file descriptor stream streams for Common Lisp"
+  :depends-on ("cffi-fcntl"
+	       "cffi-unistd"
+	       "cl-stream")
   :components
   ((:file "package")
-   (:file "fd-gray" :depends-on ("package"))))
+   (:file "fd-stream" :depends-on ("package"))))

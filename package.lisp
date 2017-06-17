@@ -1,5 +1,5 @@
 ;;
-;;  fd-gray  -  Unix file descriptor gray streams for Common Lisp
+;;  fd-stream  -  Unix file descriptors layer for cl-stream
 ;;
 ;;  Copyright 2017 Thomas de Grivel <thoxdg@gmail.com>
 ;;
@@ -18,22 +18,18 @@
 
 (in-package :common-lisp)
 
-(defpackage :fd-gray
+(defpackage :fd-stream
   (:use
    :common-lisp
-   :trivial-gray-streams)
-  (:shadow
-   #:stream
-   #:stream-error)
+   :cl-stream)
+  #.(cl-stream:shadowing-import-from)
   (:export
-   #:stream
-   #:input-stream
-   #:with-input-stream
-   #:stream-input
-   #:output-stream
-   #:with-output-stream
-   #:stream-output
-   #:io-stream
-   #:with-io-stream
-   #:stream-error
-   #:stream-closed-error))
+   #:fd-stream
+   #:fd-input-stream
+   #:with-fd-input-stream
+   #:fd-output-stream
+   #:with-fd-output-stream
+   #:fd-io-stream
+   #:with-fd-io-stream
+   #:fd-stream-error
+   #:fd-stream-closed-error))
