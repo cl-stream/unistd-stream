@@ -1,70 +1,28 @@
-# fd-gray
+# fd-stream
 
-fd-gray streams are binary gray streams operating on
-`(unsigned-byte 8)` data using `unistd:read`, `unistd:write` and
-`unistd:close` to embed Unix file descriptors in standard Common Lisp
-streams.
+fd-stream streams are `(unsigned-byte 8)` cl-stream streams
+using `unistd:read`, `unistd:write` and `unistd:close` to
+operate on Unix file descriptors.
 
-### fd-gray:input-stream *fd* --> *stream*
+## Class: fd-stream
 
+### Generic: stream-fd *fd-stream* => *fd*
+Returns the file descriptor of FD-STREAM.
+
+## Class: fd-input-stream
+A buffered input stream using UNISTD:READ.
+
+### Function: fd-input-stream *fd* => *stream*
 Creates an input stream for file descriptor *fd*.
 
-```Lisp
-(let ((seq (make-array 128 '(unsigned-byte 8))))
-  (read-sequence seq (fd-gray:input-stream 0)))
-```
+## Class: fd-output-stream
+A buffered output stream using UNISTD:WRITE.
 
-### fd-gray:output-stream *fd* --> *stream*
-
+### Function: fd-output-stream *fd* => *stream*
 Creates an output stream for file descriptor *fd*.
 
-```Lisp
-(let ((seq (make-array 128 '(unsigned-byte 8))))
-  (write-sequence seq (fd-gray:output-stream 1)))
-```
+## Class: fd-io-stream
+A buffered input/output stream using UNISTD:READ and UNISTD:WRITE.
 
-###  fd-gray:io-stream *fd* --> *stream*
-
+### Function: fd-io-stream *fd* => *stream*
 Creates an input/output stream for file descriptor *fd*.
-
-```Lisp
-(let ((seq (make-array 128 '(unsigned-byte 8))
-      (stream (fd-gray:io-stream (fcntl:open "file.bin" fcntl:+o-rdwr+))))
-  (read-sequence seq stream)
-  (write-sequence seq stream))
-```
-
-### fd-gray:with-input-stream (*var* *fd*) &body *body* --> *result*
-
-Creates an input stream for file descriptor *fd* that will be closed
-returning from *body*.
-
-```Lisp
-(fd-gray:with-input-stream (in (fcntl:open "file.bin" fcntl:+o-rdonly+))
-  (let ((seq (make-array 128 '(unsigned-byte 8))))
-    (read-sequence seq in)
-    seq))
-```
-
-### fd-gray:with-output-stream (*var* *fd*) &body *body* --> *result*
-
-Creates an output stream for file descriptor *fd* that will be closed
-returning from *body*.
-
-```Lisp
-(let ((seq (make-array 128 '(unsigned-byte 8))))
-  (fd-gray:with-output-stream (out (fcntl:open "file.bin" fcntl:+o-wronly+))
-    (write-sequence seq out)))
-```
-
-### fd-gray:with-io-stream (*var* *fd*) &body *body* --> *result*
-
-Creates an input/output stream for file descriptor *fd* that will be
-closed returning from *body*.
-
-```Lisp
-(fd-gray:with-io-stream (out (fcntl:open "file.bin" fcntl:+o-rdwr+))
-  (let ((seq (make-array 128 '(unsigned-byte 8))))
-    (read-sequence seq out)
-    (write-sequence seq out)))
-```
