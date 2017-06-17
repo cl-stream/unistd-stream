@@ -124,6 +124,14 @@
                      (stream-output-length stream) 0))
              nil)))))
 
+(defmethod stream-write-element-to-buffer ((stream fd-output-stream)
+                                           element)
+  (setf (cffi:mem-aref (stream-output-buffer stream) :unsigned-char
+                       (stream-output-length stream))
+        element)
+  (incf (stream-output-length stream))
+  nil)
+
 (defmethod close ((stream fd-output-stream))
   (flush stream)
   (call-next-method)
