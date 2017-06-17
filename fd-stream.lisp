@@ -63,7 +63,8 @@
   (:documentation "A buffered input stream using UNISTD:READ."))
 
 (defmethod make-stream-input-buffer ((stream fd-input-stream))
-  (cffi:foreign-alloc :unsigned-char :count *default-buffer-size*))
+  (cffi:foreign-alloc :unsigned-char
+                      :count (stream-input-buffer-size stream)))
 
 (defmethod stream-fill-input-buffer ((stream fd-input-stream))
   (let* ((buffer (stream-input-buffer stream))
@@ -97,7 +98,8 @@
   (:documentation "A buffered output stream using UNISTD:WRITE."))
 
 (defmethod make-stream-output-buffer ((stream fd-output-stream))
-  (cffi:foreign-alloc :unsigned-char :count *default-buffer-size*))
+  (cffi:foreign-alloc :unsigned-char
+                      :count (stream-output-buffer-size stream)))
 
 (defmethod stream-flush-output-buffer ((stream fd-output-stream))
   (let ((buffer (stream-output-buffer stream)))
