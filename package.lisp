@@ -16,7 +16,7 @@
 ;;  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ;;
 
-(in-package :common-lisp)
+(in-package :common-lisp-user)
 
 (defpackage :fd-stream
   (:use
