@@ -87,7 +87,7 @@
 
 (defmethod stream-read-element-from-buffer ((stream fd-input-stream))
   (let ((element (cffi:mem-aref (stream-input-buffer stream) :unsigned-char
-				(stream-input-index stream))))
+                                (stream-input-index stream))))
     (incf (stream-input-index stream))
     (values element nil)))
 

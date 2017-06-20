@@ -3,8 +3,8 @@
 
 (defpackage :fd-stream.test
   (:use :common-lisp
-	:cl-stream
-	:fd-stream)
+        :cl-stream
+        :fd-stream)
   #.(cl-stream:shadowing-import-from))
 
 (in-package :fd-stream.test)
