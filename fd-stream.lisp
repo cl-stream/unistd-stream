@@ -66,6 +66,10 @@
   (cffi:foreign-alloc :unsigned-char
                       :count (stream-input-buffer-size stream)))
 
+(defmethod discard-stream-input-buffer ((stream fd-input-stream))
+  (cffi:foreign-free (stream-input-buffer stream))
+  (setf (stream-input-buffer stream) nil))
+
 (defmethod stream-fill-input-buffer ((stream fd-input-stream))
   (let* ((buffer (stream-input-buffer stream))
          (length (stream-input-length stream))
@@ -91,10 +95,6 @@
     (incf (stream-input-index stream))
     (values element nil)))
 
-(defmethod close ((stream fd-input-stream))
-  (call-next-method)
-  (cffi:foreign-free (stream-input-buffer stream)))
-
 (defun fd-input-stream (fd)
   "Creates a buffered input stream for file descriptor FD."
   (make-instance 'fd-input-stream :fd fd))
@@ -106,6 +106,10 @@
 (defmethod make-stream-output-buffer ((stream fd-output-stream))
   (cffi:foreign-alloc :unsigned-char
                       :count (stream-output-buffer-size stream)))
+
+(defmethod discard-stream-output-buffer ((stream fd-output-stream))
+  (cffi:foreign-free (stream-output-buffer stream))
+  (setf (stream-output-buffer stream) nil))
 
 (defmethod stream-flush-output-buffer ((stream fd-output-stream))
   (let ((buffer (stream-output-buffer stream)))
@@ -137,11 +141,6 @@
         element)
   (incf (stream-output-length stream))
   nil)
-
-(defmethod close ((stream fd-output-stream))
-  (flush stream)
-  (call-next-method)
-  (cffi:foreign-free (stream-output-buffer stream)))
 
 (defun fd-output-stream (fd)
   "Creates a buffered output stream for file descriptor FD."
