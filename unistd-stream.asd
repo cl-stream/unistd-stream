@@ -1,7 +1,7 @@
 ;;
-;;  fd-stream  -  Unix file descriptor layer for cl-stream
+;;  unistd-stream  -  Unix file descriptor layer for cl-stream
 ;;
-;;  Copyright 2017 Thomas de Grivel <thoxdg@gmail.com>
+;;  Copyright 2017,2018 Thomas de Grivel <thoxdg@gmail.com>
 ;;
 ;;  Permission to use, copy, modify, and distribute this software for any
 ;;  purpose with or without fee is hereby granted, provided that the above
@@ -18,19 +18,19 @@
 
 (in-package :common-lisp-user)
 
-(defpackage :fd-stream.system
+(defpackage :unistd-stream.system
   (:use :common-lisp :asdf))
 
-(in-package :fd-stream.system)
+(in-package :unistd-stream.system)
 
-(defsystem :fd-stream
-  :name "fd-stream"
+(defsystem :unistd-stream
+  :name "unistd-stream"
   :author "Thomas de Grivel <thoxdg@gmail.com>"
   :version "0.1"
-  :description "Unix file descriptor stream streams for Common Lisp"
+  :description "Unix file descriptor layer for cl-stream"
   :depends-on ("cffi-fcntl"
 	       "cffi-unistd"
 	       "cl-stream")
   :components
   ((:file "package")
-   (:file "fd-stream" :depends-on ("package"))))
+   (:file "unistd-stream" :depends-on ("package"))))

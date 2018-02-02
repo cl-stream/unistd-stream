@@ -1,7 +1,7 @@
 ;;
-;;  fd-stream  -  Unix file descriptor layer for cl-stream
+;;  unistd-stream  -  Unix file descriptor layer for cl-stream
 ;;
-;;  Copyright 2017 Thomas de Grivel <thoxdg@gmail.com>
+;;  Copyright 2017,2018 Thomas de Grivel <thoxdg@gmail.com>
 ;;
 ;;  Permission to use, copy, modify, and distribute this software for any
 ;;  purpose with or without fee is hereby granted, provided that the above
@@ -18,14 +18,14 @@
 
 (in-package :common-lisp-user)
 
-(defpackage :fd-stream
+(defpackage :unistd-stream
   (:use
    :common-lisp
    :cl-stream)
   #.(cl-stream:shadowing-import-from)
   (:export
-   #:fd-input-stream
-   #:fd-io-stream
-   #:fd-output-stream
-   #:fd-stream
-   #:open-file))
+   #:unistd-input-stream
+   #:unistd-io-stream
+   #:unistd-output-stream
+   #:unistd-stream
+   #:unistd-stream-open))
