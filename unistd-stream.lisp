@@ -54,7 +54,7 @@
 (defmethod stream-element-type ((stream unistd-stream))
   '(unsigned-byte 8))
 
-(defmethod close ((stream unistd-stream))
+(defmethod stream-close ((stream unistd-stream))
   (unistd:close (stream-fd stream))
   (call-next-method))
 
@@ -151,7 +151,7 @@
   (:documentation "A buffered input/output stream using
 UNISTD:READ and UNISTD:WRITE."))
 
-(defmethod close ((stream unistd-io-stream))
+(defmethod stream-close ((stream unistd-io-stream))
   (call-next-method)
   (cffi:foreign-free (stream-input-buffer stream))
   (cffi:foreign-free (stream-output-buffer stream)))
