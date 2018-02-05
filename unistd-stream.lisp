@@ -34,16 +34,16 @@
         (slot-value stream 'blocking-p))
       (setf (slot-value stream 'blocking-p)
             (let ((flags (fcntl:getfl (stream-fd stream))))
-              (not (= 0 (logand fcntl:+o-nonblock+ flags)))))))
+              (zerop (logand fcntl:+o-nonblock+ flags))))))
 
 (defmethod (setf stream-blocking-p) (value (stream unistd-stream))
   (let* ((fd (stream-fd stream))
          (flags (fcntl:getfl fd))
          (o-nonblock (not (= 0 (logand fcntl:+o-nonblock+ flags)))))
     (cond
-      ((and value o-nonblock)
+      ((and value (not o-nonblock))
        t)
-      ((and (not value) (not o-nonblock))
+      ((and (not value) o-nonblock)
        nil)
       (t
        (fcntl:setfl fd (if value
