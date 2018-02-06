@@ -33,4 +33,9 @@
 	       "cl-stream")
   :components
   ((:file "package")
-   (:file "unistd-stream" :depends-on ("package"))))
+   (:file "unistd-input-stream" :depends-on ("unistd-stream"))
+   (:file "unistd-io-stream" :depends-on ("unistd-input-stream"
+                                          "unistd-output-stream"))
+   (:file "unistd-output-stream" :depends-on ("unistd-stream"))
+   (:file "unistd-stream" :depends-on ("package"))
+   (:file "unistd-stream-open" :depends-on ("unistd-io-stream"))))
