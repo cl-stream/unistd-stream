@@ -28,8 +28,10 @@
           "Open not for reading nor writing.")
   (let* ((flags (compute-flags read write append non-blocking create))
          (fd (fcntl:open pathname flags (or create 0)))
-         (class (compute-class read write)))
-    (make-instance class
-                   :fd fd
-                   :input-buffer-size input-buffer-size
-                   :output-buffer-size output-buffer-size)))
+         (class (compute-class read write))
+         (args ()))
+    (when read
+      (setf args (list* :input-buffer-size input-buffer-size args)))
+    (when write
+      (setf args (list* :output-buffer-size output-buffer-size args)))
+    (apply #'make-instance class :fd fd args)))
