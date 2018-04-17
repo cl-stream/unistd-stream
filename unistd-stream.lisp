@@ -55,8 +55,12 @@
   '(unsigned-byte 8))
 
 (defmethod stream-close ((stream unistd-stream))
-  (unistd:close (stream-fd stream))
-  (call-next-method))
+  (unistd:close (stream-fd stream)))
+
+(defmethod stream-open-p ((stream unistd-stream))
+  (let ((fd (stream-fd stream)))
+    (unless (= -1 (unistd:c-dup2 fd fd))
+      t)))
 
 (defun compute-flags (read write append non-blocking create)
   (logior (if append              fcntl:+o-append+   0)
