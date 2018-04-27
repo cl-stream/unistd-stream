@@ -13,7 +13,7 @@
   (cffi:foreign-free (stream-output-buffer stream))
   (setf (stream-output-buffer stream) nil))
 
-(defmethod stream-flush-output-buffer ((stream unistd-output-stream))
+(defmethod stream-flush-output ((stream unistd-output-stream))
   (let ((buffer (stream-output-buffer stream)))
     (let* ((fd (stream-fd stream))
            (index (stream-output-index stream))

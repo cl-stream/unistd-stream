@@ -36,6 +36,9 @@
   (let ((element (cffi:mem-aref (stream-input-buffer stream) :unsigned-char
                                 (stream-input-index stream))))
     (incf (stream-input-index stream))
+    (when (= (stream-input-index stream) (stream-input-length stream))
+      (setf (stream-input-index stream) 0
+            (stream-input-length stream) 0))
     (values element nil)))
 
 (defun unistd-input-stream (fd)
