@@ -15,10 +15,15 @@
         (read             'unistd-input-stream)
         (write            'unistd-output-stream)))
 
+(defun compute-mode (create)
+  (cond ((null create) nil)
+        ((eq t create) #o666)
+        (t create)))
+
 (defun unistd-stream-open (pathname &key
                                       read write append
                                       non-blocking
-                                      (create #o777)
+                                      (create #o666)
                                       (input-buffer-size
                                        *stream-default-buffer-size*)
                                       (output-buffer-size
@@ -27,7 +32,8 @@
           (read write)
           "Open not for reading nor writing.")
   (let* ((flags (compute-flags read write append non-blocking create))
-         (fd (fcntl:open pathname flags (or create 0)))
+         (mode (compute-mode create))
+         (fd (fcntl:open pathname flags mode))
          (class (compute-class read write))
          (args ()))
     (when read
