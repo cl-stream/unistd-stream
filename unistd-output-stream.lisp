@@ -9,7 +9,7 @@
   (cffi:foreign-alloc :unsigned-char
                       :count (stream-output-buffer-size stream)))
 
-(defmethod discard-stream-output-buffer ((stream unistd-output-stream))
+(defmethod stream-discard-output-buffer ((stream unistd-output-stream))
   (cffi:foreign-free (stream-output-buffer stream))
   (setf (stream-output-buffer stream) nil))
 
