@@ -55,7 +55,8 @@
   '(unsigned-byte 8))
 
 (defmethod stream-close ((stream unistd-stream))
-  (unistd:close (stream-fd stream)))
+  (when (stream-open-p stream)
+    (unistd:close (stream-fd stream))))
 
 (defmethod stream-open-p ((stream unistd-stream))
   (let ((fd (stream-fd stream)))
