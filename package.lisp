@@ -28,4 +28,5 @@
    #:unistd-io-stream
    #:unistd-output-stream
    #:unistd-stream
+   #:unistd-stream-fd
    #:unistd-stream-open))
