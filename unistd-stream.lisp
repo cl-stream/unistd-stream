@@ -21,7 +21,7 @@
 (deftype fixnum+ (&optional (start 0))
   `(integer ,start ,most-positive-fixnum))
 
-(defclass unistd-stream (stream)
+(defclass unistd-stream (ub8-stream)
   ((fd :initarg :fd
        :reader stream-fd
        :type file-descriptor)
@@ -50,9 +50,6 @@
                            (logand (lognot fcntl:+o-nonblock+) flags)
                            (logior fcntl:+o-nonblock+ flags)))
        (setf (slot-value stream 'blocking-p) value)))))
-
-(defmethod stream-element-type ((stream unistd-stream))
-  '(unsigned-byte 8))
 
 (defmethod stream-close ((stream unistd-stream))
   (when (stream-open-p stream)
