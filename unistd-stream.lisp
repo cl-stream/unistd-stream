@@ -24,7 +24,7 @@
 (defclass unistd-stream (ub8-stream)
   ((fd :initarg :fd
        :reader stream-fd
-       :type file-descriptor)
+       :type unistd:file-descriptor)
    (blocking-p :initarg :blocking-p
                :type boolean))
   (:documentation "Base class for file descriptor streams."))
