@@ -31,6 +31,8 @@
   (assert (or read write)
           (read write)
           "Open not for reading nor writing.")
+  (when (pathnamep pathname)
+    (setq pathname (namestring pathname)))
   (let* ((flags (compute-flags read write append non-blocking create))
          (mode (compute-mode create))
          (fd (fcntl:open pathname flags mode))
